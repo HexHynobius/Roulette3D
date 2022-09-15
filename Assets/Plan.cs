@@ -156,6 +156,12 @@ public class Plan : MonoBehaviour
         return ret;
     }
 
+    public void toExit()
+    {
+        Application.Quit();
+    }
+
+
     public void toTit()
     {
         mainCamera.orthographic = false;
