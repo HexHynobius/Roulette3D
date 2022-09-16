@@ -94,7 +94,12 @@ public class Plan : MonoBehaviour
     Button playButton;
 
     [SerializeField]
+    Button clearButton;
+
+    [SerializeField]
     Button baseButton;
+
+
 
     int[] redArray = new int[18] { 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36 };
     int[] blackArray = new int[18] { 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35 };
@@ -192,6 +197,24 @@ public class Plan : MonoBehaviour
         StartCoroutine(toWait());
     }
 
+    public void ClearTab()
+    {
+        betText.text = 0.ToString();
+
+        for (int i = 0; i < betsChips.Count; i++)
+        {
+            Destroy(betsChips[i]);
+        }
+        betsChips.Clear();
+        sTime = 0;
+        temCount = 0;
+        temMulti = 0;
+        for (int i = 0; i < 37; i++)
+        {
+            temArea[i] = 0;
+        }
+        temTotal = 0;
+    }
     public void LookCamera()
     {
         if (!doLook)
@@ -217,7 +240,9 @@ public class Plan : MonoBehaviour
         //mainUI.SetActive(false);
 
         playButton.interactable = false;
+        clearButton.interactable=false;
         baseButton.interactable = false;
+
 
         mainCamera.orthographic = false;
         toRouCamera.SetActive(true);
@@ -271,7 +296,7 @@ public class Plan : MonoBehaviour
         pImage[19].color = new Color32(255, 225, 0, 255);
 
         if (ball.number == 0) pImage[9].color = new Color32(0, 153, 25, 255);
-        else if (Array.Exists<int>(redArray, n => n == ball.number)) pImage[9].color = new Color32(153, 0, 0, 255);
+        else if (Array.Exists<int>(redArray, n => n == ball.number)) pImage[9].color = new Color32(204, 0, 0, 255);
         else pImage[9].color = new Color32(0, 0, 0, 255);
 
 
@@ -305,6 +330,7 @@ public class Plan : MonoBehaviour
 
 
         playButton.interactable = true;
+        clearButton.interactable = true;
         baseButton.interactable = true;
 
         mainCamera.orthographic = true;
