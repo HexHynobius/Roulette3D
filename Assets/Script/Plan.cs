@@ -293,7 +293,7 @@ public class Plan : MonoBehaviour
         }
 
         pText[9].text = ball.number.ToString();
-        pImage[19].color = new Color32(255, 225, 0, 255);
+        pImage[19].color = new Color32(253, 190, 44, 255);
 
         if (ball.number == 0) pImage[9].color = new Color32(0, 153, 25, 255);
         else if (Array.Exists<int>(redArray, n => n == ball.number)) pImage[9].color = new Color32(204, 0, 0, 255);
