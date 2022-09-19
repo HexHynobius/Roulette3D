@@ -99,6 +99,23 @@ public class Plan : MonoBehaviour
     [SerializeField]
     Button baseButton;
 
+    [SerializeField]
+    Button settingButton;
+
+    [SerializeField]
+    AudioSource bgm;
+
+    [SerializeField]
+    Scrollbar bgmBar;
+
+    [SerializeField]
+    AudioSource eff;
+
+    [SerializeField]
+    Scrollbar effBar;
+
+    [SerializeField]
+    List<AudioClip> effList = new List<AudioClip>();
 
 
     int[] redArray = new int[18] { 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36 };
@@ -110,6 +127,23 @@ public class Plan : MonoBehaviour
         {
             temArea.Add(new int());
         }
+    }
+
+    public void BGMValue()
+    {
+        bgm.volume = bgmBar.value;
+    }
+
+    public void EffValue()
+    {
+        eff.volume = effBar.value;
+        ball.pon.volume = effBar.value * 0.3f;
+    }
+
+    public void EffPlay(int n)
+    {
+        eff.clip = effList[n];
+        eff.Play();
     }
 
 
@@ -138,6 +172,7 @@ public class Plan : MonoBehaviour
     {
         if (Int32.Parse(baseChangBgText.text) * temCount <= Int32.Parse(bankRollText.text))
         {
+            EffPlay(0);
             int temp = (Int32.Parse(baseText.text));
             baseText.text = baseChangBgText.text;
             if (baseText.text == "") { baseText.text = "0"; }
@@ -148,6 +183,10 @@ public class Plan : MonoBehaviour
                 baseText.text = temp.ToString();
                 betText.text = (Int32.Parse(baseText.text) * temCount).ToString();
             }
+        }
+        else
+        {
+            EffPlay(2);
         }
     }
 
@@ -169,6 +208,9 @@ public class Plan : MonoBehaviour
 
     public void toTit()
     {
+        if (doLook) LookCamera();
+
+        ball.pon.enabled = false;
         mainCamera.orthographic = false;
         plenCamera.SetActive(false);
         mainUI.SetActive(false);
@@ -178,6 +220,7 @@ public class Plan : MonoBehaviour
 
     public void toPlen()
     {
+        ball.pon.enabled = false;
         rotScript.speed = 0.1f;
         titleTab.SetActive(false);
         mainCamera.orthographic = true;
@@ -194,6 +237,7 @@ public class Plan : MonoBehaviour
 
     public void toRou()
     {
+
         StartCoroutine(toWait());
     }
 
@@ -239,9 +283,12 @@ public class Plan : MonoBehaviour
 
         //mainUI.SetActive(false);
 
+        ball.pon.enabled = true;
+
         playButton.interactable = false;
-        clearButton.interactable=false;
+        clearButton.interactable = false;
         baseButton.interactable = false;
+        settingButton.interactable = false;
 
 
         mainCamera.orthographic = false;
@@ -272,8 +319,18 @@ public class Plan : MonoBehaviour
         //結算分數
         temTotal = (temArea[number] * Int32.Parse(baseText.text)) - Int32.Parse(betText.text);
 
-        if (temTotal >= 0) totalTabText.text = "+" + temTotal.ToString();
-        else totalTabText.text = temTotal.ToString();
+        if (temTotal >= 0)
+        {
+            EffPlay(1);
+            totalTabText.color = new Color32(186,110,0,255);
+            totalTabText.text = "+" + temTotal.ToString();
+        }
+        else
+        {
+            EffPlay(2);
+            totalTabText.color = new Color32(186, 0, 36, 255);
+            totalTabText.text = temTotal.ToString();
+        }
 
         totalTab.SetActive(true);
         onTotal = true;
@@ -328,10 +385,12 @@ public class Plan : MonoBehaviour
         }
         temTotal = 0;
 
+        ball.pon.enabled = false;
 
         playButton.interactable = true;
         clearButton.interactable = true;
         baseButton.interactable = true;
+        settingButton.interactable = true;
 
         mainCamera.orthographic = true;
         toRouCamera.SetActive(false);

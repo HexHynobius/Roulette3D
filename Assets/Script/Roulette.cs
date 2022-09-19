@@ -25,6 +25,8 @@ public class Roulette : MonoBehaviour
         if (!open)
         {
 
+
+
             temSpeed = speed;
             ball.transform.position = new Vector3(2.5f, 1, 1.5f);
             ballRi.velocity = Vector3.left * Random.Range(1, 5);

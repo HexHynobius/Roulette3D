@@ -27,7 +27,7 @@ public class BetArea : MonoBehaviour
         {
             for (int i = 0; i < s.Length; i++)
             {
-                s[i].color = new Color(s[i].color.r, s[i].color.g, s[i].color.b, Mathf.Abs(Mathf.Sin(plan.sTime) * 0.5f));
+                s[i].color = new Color(s[i].color.r, s[i].color.g, s[i].color.b, Mathf.Abs(Mathf.Sin(plan.sTime) * 0.3f));
             }
             plan.sTime += 0.05f;
         }

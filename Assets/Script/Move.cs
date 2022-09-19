@@ -34,6 +34,8 @@ public class Move : MonoBehaviour
 
     private void OnMouseDown()
     {
+        plan.EffPlay(0);
+
         Otemp = gameObject.transform.position;
         multiText.text = "";
         for (int i = 0; i < plan.perChips.Count; i++)
@@ -55,6 +57,8 @@ public class Move : MonoBehaviour
 
         if (plan.inN.Count > 0 && Int32.Parse(plan.baseText.text) * (plan.temCount + addBet) <= Int32.Parse(plan.bankRollText.text))
         {
+
+            plan.EffPlay(1);
 
             tempChipsName = plan.inN[plan.inN.Count - 1];
             for (int i = 0; i < tempChipsName.Split(',').Length; i++)
@@ -109,6 +113,11 @@ public class Move : MonoBehaviour
             }
             plan.betsChips.Find(e => e.GetComponent<Chips>().areaName == tempChipsName).GetComponent<Chips>().countText.text = "x" + plan.betsChips.Find(e => e.GetComponent<Chips>().areaName == tempChipsName).GetComponent<Chips>().count;
         }
+        else
+        {
+            plan.EffPlay(2);
+        }
+
         tempChipsName = "";
         tempChipsArea.Clear();
 
